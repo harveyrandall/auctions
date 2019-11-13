@@ -2,6 +2,11 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import datetime
 
+# Helper functions
+def default_end_time():
+    return datetime.datetime.now() + datetime.timedelta(days=1)
+
+
 # Create your models here.
 class User(AbstractUser):
     name = models.CharField(max_length=128, blank=True)
@@ -26,4 +31,4 @@ class Item(models.Model):
     itemImage = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100)
     startingPrice = models.IntegerField(default = 0)
     bidPrice = models.ForeignKey(Bid, on_delete = models.CASCADE)
-    endTime = models.DateTimeField(blank=False, default=(datetime.datetime.now() + datetime.timedelta(days=1)))
+    endTime = models.DateTimeField(blank=False, default=default_end_time)
