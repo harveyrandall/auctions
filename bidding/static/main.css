@@ -1,0 +1,6 @@
+.row > form {
+	background: #eeeeee;
+	border: 1px solid #bbbbbb;
+	border-radius: 4px;
+	padding: 10px 15px;
+}

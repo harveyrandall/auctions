@@ -32,6 +32,9 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'bidding.User'
 
+LOGIN_REDIRECT_URL = 'bidding:index'
+LOGOUT_REDIRECT_URL = 'bidding:index'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,8 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bidding.apps.BiddingConfig'
+    'bidding.apps.BiddingConfig',
+    'crispy_forms'
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

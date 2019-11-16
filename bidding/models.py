@@ -10,7 +10,8 @@ def default_end_time():
 
 # Create your models here.
 class User(AbstractUser):
-    dob = models.DateField(blank=False, null=True)
+    email = models.EmailField(blank=False)
+    date_of_birth = models.DateField(blank=False, null=True)
 
 class Bid(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
