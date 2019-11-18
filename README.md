@@ -36,7 +36,7 @@ python manage.py runserver
 
 To see the progress so far open `127.0.0.1:8000` in your browser.
 
-# Superuser
+## Superuser
 I have created a superuser with the following details:
 * **Username:** admin
 * **Password:** password
