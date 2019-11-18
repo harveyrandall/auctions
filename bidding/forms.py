@@ -21,3 +21,11 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'date_of_birth')
+
+class ItemCreateForm(forms.ModelForm):
+    class Meta:
+        model = Item
+        fields = ['item_name', 'item_description', 'item_image', 'starting_price', 'end_time']
+        widgets = {
+            'end_time': DateInput()
+        }
