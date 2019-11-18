@@ -1,4 +1,9 @@
-# Installation
+# Table of Contents
+* [Installation](#installation)
+* [Running the server](#running-the-server)
+* [Superuser](#superuser)
+
+## Installation
 
 The repository tracks only the Django project. To clone it and keep the correct directory structure do the following:
 
@@ -22,7 +27,7 @@ The repository tracks only the Django project. To clone it and keep the correct 
 
 The project should now be all setup and ready to run.
 
-# Running the server
+## Running the server
 Run the server like any normal Django project.
 
 ```bash
@@ -30,3 +35,8 @@ python manage.py runserver
 ```
 
 To see the progress so far open `127.0.0.1:8000` in your browser.
+
+# Superuser
+I have created a superuser with the following details:
+* **Username:** admin
+* **Password:** password
