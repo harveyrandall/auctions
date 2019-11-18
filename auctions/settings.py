@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'bidding.User'
 
+LOGIN_URL = 'bidding:login'
 LOGIN_REDIRECT_URL = 'bidding:index'
 LOGOUT_REDIRECT_URL = 'bidding:index'
 
