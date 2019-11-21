@@ -4,7 +4,7 @@
 
 {% block content %}
 	<div class="row">
-		<form action="{% url 'bidding:register' %}" method="POST" class="col-12">
+		<form action="{% url 'bidding:add_item' %}" method="POST" class="col-12" enctype="multipart/form-data">
 			{% csrf_token %}
 			{{ form|crispy }}
 			<button type="submit" class="btn btn-primary">Add Item!</button>

@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.views import generic
 from django.http import JsonResponse, HttpResponse, QueryDict
+from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin
+from django.db.models.functions import Now
 from .models import User, Item, Bid
 from .forms import RegistrationForm, ItemCreateForm
 
@@ -22,6 +24,9 @@ class IndexView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+    def get_queryset(self, **kwargs):
+        return self.model.objects.filter(end_time__gt=Now())
 
 class RegisterView(generic.CreateView):
     model = User
@@ -58,10 +63,15 @@ class ItemCreateView(LoginRequiredMixin, generic.CreateView):
     model = Item
     form_class = ItemCreateForm
     template_name = "bidding/add_item.html"
+    success_url = "/"
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(ItemCreateView, self).form_valid(form)
 
 class ItemDetailView(generic.DetailView):
-    pass
+    model = Item
+    template_name = "bidding/item.html"
 
 class ItemDeleteView(generic.DeleteView):
     pass

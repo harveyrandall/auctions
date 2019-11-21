@@ -4,3 +4,34 @@
 	border-radius: 4px;
 	padding: 10px 15px;
 }
+
+
+/*
+	column-count's at different breakpoints
+ */
+.card-columns {
+	column-count: 1!important;
+}
+@media (min-width: 576px) {
+    .card-columns {
+        column-count: 2!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .card-columns {
+        column-count: 2!important;
+    }
+}
+
+@media (min-width: 992px) {
+    .card-columns {
+        column-count: 3!important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card-columns {
+        column-count: 4!important;
+    }
+}
