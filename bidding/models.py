@@ -34,6 +34,10 @@ class Item(models.Model):
     posted_time = models.DateTimeField(auto_now=True)
     end_time = models.DateTimeField(blank=False, default=default_end_time)
 
+    @property
+    def item_ended(self):
+        return self.end_time.replace(tzinfo=None) < datetime.datetime.now()
+
     def clean(self):
         if self.end_time.replace(tzinfo=None) < datetime.datetime.now():
             raise ValidationError({

@@ -18,11 +18,9 @@ urlpatterns = [
         name="logout"),
     path('register/', views.RegisterView.as_view(), name="register"),
     path('search/', views.SearchListView.as_view(), name="search"),
-    path('user/<int:pk>', views.UserDetailView.as_view(), name="user"),
-    path('user/<int:pk>/items', views.UserItemListView.as_view(), name="items"),
-    path('user/<int:pk>/bids', views.UserBidListView.as_view(), name="bids"),
-    path('item/add', views.ItemCreateView.as_view(), name="add_item"),
-    path('item/<int:pk>', views.ItemDetailView.as_view(), name="item"),
-    path('item/<int:pk>/delete', views.ItemDeleteView.as_view(), name="delete_item"),
-    path('bid/<int:pk>', views.BidView.as_view(), name="bid")
+    path('user/<int:pk>/', views.UserDetailView.as_view(), name="user"),
+    path('item/add/', views.ItemCreateView.as_view(), name="add_item"),
+    path('item/<int:pk>/', views.ItemDetailView.as_view(), name="item"),
+    path('item/<int:pk>/delete/', views.ItemDeleteView.as_view(), name="delete_item"),
+    path('bid/<int:pk>/', views.BidView.as_view(), name="bid")
 ]

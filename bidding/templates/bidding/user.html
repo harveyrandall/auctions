@@ -1,0 +1,68 @@
+{% extends '../base.html' %}
+
+{% block content %}
+	<div class="alert alert-info">
+		<h3>Account Info for '{{ user.username }}'</h3>
+	</div>
+
+	<div class="row">
+		<div class="col col-sm-12 col-lg-6 col-12 mb-2">
+			<div class="card">
+				<div class="card-header">
+					Item history
+				</div>
+				<ul class="list-group list-group-flush">
+					{% for item in user.item_set.all %}
+						<li class="list-group-item">
+							<a href="{% url 'bidding:item' item.pk %}">{{item.item_name}}</a>
+						</li>
+					{% empty %}
+						<li class="list-group-item">You haven't posted any items yet.</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+		<div class="col col-sm-12 col-lg-6 col-12">
+			<div class="card">
+				<div class="card-header">
+					Bid history
+				</div>
+				<ul class="list-group list-group-flush">
+					{% for bid in user.bid_set.all %}
+						<li class="list-group-item">
+							<a href="{% url 'bidding:item' item.pk %}">{{bid.item_set.item_name}}</a>
+						</li>
+					{% empty %}
+						<li class="list-group-item">You haven't bidded on any items yet.</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--
+	{% if user %}
+		<div class="card-columns">
+			{% for item in user.item_set.all %}
+					<div class="card">
+						<h5 class="card-header">{{ item.item_name }}</h5>
+						<img src="{{ item.item_image.url }}" class="card-img-top" alt="{{ item.item_name }}" />
+						<div class="card-body">
+							<a href="{% url 'bidding:item' item.pk %}" class="btn btn-danger" style="width:100%">Make a bid!</a>
+						</div>
+						<div class="card-footer">
+							<small class="text-muted">Posted {{ item.posted_time|timesince }} ago.</small>
+							<small class="text-muted">Ends in {{ item.end_time|timeuntil }}.</small>
+						</div>
+					</div>
+			{% endfor %}
+		</div>
+	{% else %}
+		<div class="jumbotron col-12">
+			<h1 class="display-4">No items yet!</h1>
+			<p class="lead">
+				No items have been posted for sale yet.
+			</p>
+		</div>
+	{% endif %}
+	-->
+{% endblock %}

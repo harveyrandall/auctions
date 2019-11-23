@@ -1,0 +1,62 @@
+{% extends '../base.html' %}
+
+{% block content %}
+	<div class="alert alert-info">
+		<h3>{{ item.item_name }}</h3>
+	</div>
+	<div class="row">
+		<div class="col col-12">
+			<div class="card mb-3">
+				<div class="row no-gutters">
+					<div class="col-md-4">
+						<img src="{{ item.item_image.url }}" class="card-img" />
+					</div>
+					<div class="col-md-8">
+						<div class="card-body item">
+							<p class="card-text h4">
+								Item description
+							</p>
+							<p class="card-text item-description">
+								{% if item.item_description %}
+									{{ item.item_description }}
+								{% else %}
+									No description has been provided for this item.
+								{% endif %}
+							</p>
+							<p class="card-text">
+								{% if item.item_ended %}
+									<button class="btn btn-danger">Auction is over</button>
+								{% else %}
+									<a href="{% url 'bidding:bid' item.pk %}" class="btn btn-success">Make a bid</a>
+								{% endif %}
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="card-footer">
+					{% if item.item_ended %}
+						<small class="text-muted">Auction ended {{ item.end_time|timesince }} ago.</small>
+					{% else %}
+						<small class="text-muted">Auction ends in {{ item.end_time|timeuntil }}.</small>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		<div class="col col-12">
+			<div class="card">
+				<div class="card-header">
+					<h5>Bids</h5>
+				</div>
+				<ul class="list-group list-group-flush">
+					{% if item.bid_set %}
+						{% for bid in item.bid_set.all %}
+							<li class="list-group-item bid">{{ bid }}</li>
+						{% endfor %}
+					{% else %}
+						<li class="list-group-item">No bids yet.</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</div>
+{% endblock %}

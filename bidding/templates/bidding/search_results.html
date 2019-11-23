@@ -1,0 +1,32 @@
+{% if items %}
+	<div class="card-columns">
+		{% for item in items %}
+				<div class="card">
+					<h5 class="card-header">{{ item.item_name }}</h5>
+					<img src="{{ item.item_image.url }}" class="card-img-top" alt="{{ item.item_name }}" />
+					{% if item.item_ended %}
+						<div class="card-body">
+							<a href="#" class="btn btn-danger" style="width:100%">Auction over</a>
+						</div>
+					{% else %}
+						<div class="card-body">
+							<a href="{% url 'bidding:item' item.pk %}" class="btn btn-success" style="width:100%">Make a bid!</a>
+						</div>
+					{% endif %}
+					<div class="card-footer">
+						<small class="text-muted">Posted {{ item.posted_time|timesince }} ago.</small>
+						<br />
+						{% if item.item_ended %}
+							<small class="text-muted">Auction ended {{ item.end_time|timesince }} ago.</small>
+						{% else %}
+							<small class="text-muted">Ends in {{ item.end_time|timeuntil }}.</small>
+						{% endif %}
+					</div>
+				</div>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="jumbotron col-12">
+		<h1 class="display-4">Nothing matches your search results!</h1>
+	</div>
+{% endif %}

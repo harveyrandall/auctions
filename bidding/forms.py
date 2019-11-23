@@ -38,3 +38,8 @@ class ItemCreateForm(forms.ModelForm):
                     'placeholder': 'YYYY-MM-DD hh:mm'
                 })
         }
+
+class BidCreateForm(forms.ModelForm):
+    class Meta:
+        model = Bid
+        fields = ('amount',)
