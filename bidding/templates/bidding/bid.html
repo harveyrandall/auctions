@@ -1,13 +1,28 @@
 {% extends '../base.html' %}
 
 {% load crispy_forms_tags %}
+{% load humanize %}
 
 {% block content %}
 	<div class="row">
-		<form action="{% url 'bidding:bid' item.pk %}" method="POST" class="col-12" enctype="multipart/form-data">
-			{% csrf_token %}
-			{{ form|crispy }}
-			<button type="submit" class="btn btn-primary">Add Item!</button>
-		</form>
+		{% if bid|default:"0" %}
+			<div class="alert alert-info col-12">
+				<b>Current bid:</b> £{{ bid|default:0|intcomma }}
+			</div>
+		{% endif %}
+		{% if not owner %}
+			<form method="POST" class="col-12">
+				{% csrf_token %}
+				{{ form|crispy }}
+				<button type="submit" class="btn btn-success col-12">Make bid!</button>
+			</form>
+		{% else %}
+			<p class="col-6 offset-3" style="text-align:center;">
+				You can't bid on your own item!
+				<a href="{{ redirect }}" class="btn btn-danger col-12" style="margin-top:10px;">
+					Go back
+				</a>
+			</p>
+		{% endif %}
 	</div>
 {% endblock %}

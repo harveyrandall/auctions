@@ -42,4 +42,8 @@ class ItemCreateForm(forms.ModelForm):
 class BidCreateForm(forms.ModelForm):
     class Meta:
         model = Bid
-        fields = ('amount',)
+        fields = ('user', 'item', 'amount',)
+        widgets = {
+            'user': forms.HiddenInput(),
+            'item': forms.HiddenInput()
+        }

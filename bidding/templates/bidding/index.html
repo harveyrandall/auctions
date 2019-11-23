@@ -2,7 +2,7 @@
 
 {% block content %}
 	<div class="alert alert-info">
-		<h3>All open auctions</h3>
+		<h3>{{ title }}</h3>
 	</div>
 	{% if items %}
 		<div class="card-columns">
@@ -30,7 +30,7 @@
 		</div>
 	{% else %}
 		<div class="jumbotron col-12">
-			<h1 class="display-4">No open auctions right now!</h1>
+			<h1 class="display-4">{{ no_items }}</h1>
 			<p class="lead">
 				Why don't you post something?
 			</p>

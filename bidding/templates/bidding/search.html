@@ -31,8 +31,6 @@
 								</div>
 							{% endif %}
 							<div class="card-footer">
-								<small class="text-muted">Posted {{ item.posted_time|timesince }} ago.</small>
-								<br />
 								{% if item.item_ended %}
 									<small class="text-muted">Auction ended {{ item.end_time|timesince }} ago.</small>
 								{% else %}

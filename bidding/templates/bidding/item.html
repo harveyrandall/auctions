@@ -1,5 +1,7 @@
 {% extends '../base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 	<div class="alert alert-info">
 		<h3>{{ item.item_name }}</h3>
@@ -23,13 +25,22 @@
 									No description has been provided for this item.
 								{% endif %}
 							</p>
-							<p class="card-text">
-								{% if item.item_ended %}
+							{% if item.item_ended %}
+								<p class="card-text">
 									<button class="btn btn-danger">Auction is over</button>
+								</p>
+							{% else %}
+								{% if user.is_authenticated %}
+									<form method="GET" action="{% url 'bidding:bid' item.pk %}">
+										<input type="hidden" name="next" value="{% url 'bidding:item' item.pk %}" />
+										<button type="submit" class="btn btn-success">Make bid</button>
+									</form>
 								{% else %}
-									<a href="{% url 'bidding:bid' item.pk %}" class="btn btn-success">Make a bid</a>
+									<p class="card-text">
+										<a href="{% url 'bidding:login' %}" class="btn btn-info">Login to make a bid</a>
+									</p>
 								{% endif %}
-							</p>
+							{% endif %}
 						</div>
 					</div>
 				</div>
@@ -48,9 +59,9 @@
 					<h5>Bids</h5>
 				</div>
 				<ul class="list-group list-group-flush">
-					{% if item.bid_set %}
+					{% if item.bid_set.count > 0 %}
 						{% for bid in item.bid_set.all %}
-							<li class="list-group-item bid">{{ bid }}</li>
+							<li class="list-group-item bid">{{ bid.amount }}</li>
 						{% endfor %}
 					{% else %}
 						<li class="list-group-item">No bids yet.</li>

@@ -1,13 +1,16 @@
-from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.views import generic
 from django.http import JsonResponse, HttpResponse, QueryDict
 from django.urls import reverse
+from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Max
 from django.db.models.functions import Now
 from .models import User, Item, Bid
 from .forms import RegistrationForm, ItemCreateForm, BidCreateForm
+import decimal
 
 # Mixins
 class CurrentUserMixin(LoginRequiredMixin):
@@ -24,10 +27,31 @@ class IndexView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context.update({
+            'title': "All open auctions",
+            'no_items': "No open auctions right now!"
+        })
         return context
 
     def get_queryset(self, **kwargs):
         return self.model.objects.filter(end_time__gt=Now())
+
+class ClosedView(generic.ListView):
+    model = Item
+    template_name = 'bidding/index.html'
+    context_object_name = 'items'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'title': "All closed auctions",
+            'no_items': "No closed auctions yet!"
+        })
+        return context
+
+    def get_queryset(self, **kwargs):
+        return self.model.objects.filter(end_time__lte=Now())
+
 
 class RegisterView(generic.CreateView):
     model = User
@@ -72,15 +96,30 @@ class ItemDetailView(generic.DetailView):
     template_name = "bidding/item.html"
     context_object_name = "item"
 
-class ItemDeleteView(generic.DeleteView):
-    pass
-
-class BidView(LoginRequiredMixin, generic.CreateView):
+class BidCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     login_url = "/login"
-    model = Bid
+    model = Item
     form_class = BidCreateForm
     template_name = "bidding/bid.html"
+    success_message = "Bid made successfully."
+
+    def get_initial(self):
+        return {
+            'user': self.request.user,
+            'item': self.model.objects.get(pk=self.kwargs.get('pk'))
+        }
 
     def get_context_data(self, **kwargs):
-        print(dir(self))
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'bid': Bid.highest_bid(self.kwargs.get('pk')),
+            'redirect': self.get_success_url()
+        });
+        if self.request.user == self.model.objects.get(pk=self.kwargs.get('pk')).user:
+            context.update({
+                'owner': True
+            })
+        return context
 
+    def get_success_url(self):
+        return self.request.GET.get('next', "/")
