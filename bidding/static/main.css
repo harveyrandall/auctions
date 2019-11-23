@@ -6,7 +6,7 @@
 }
 
 .content {
-	height: calc(100vh - 56px);
+	min-height: calc(100vh - 56px);
 	border-left: 1px solid #bbb;
 	border-right: 1px solid #bbb;
 	box-shadow: 0px -10px 5px 0px #aaa;
@@ -22,6 +22,12 @@
 }
 .item .btn {
 	width:100%!important;
+}
+
+li.bid {
+	display:flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 
 /*

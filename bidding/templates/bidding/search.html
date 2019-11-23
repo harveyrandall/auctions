@@ -23,7 +23,13 @@
 							<img src="{{ item.item_image.url }}" class="card-img-top" alt="{{ item.item_name }}" />
 							{% if item.item_ended %}
 								<div class="card-body">
-									<a href="#" class="btn btn-danger" style="width:100%">Auction over</a>
+									<a href="{% url 'bidding:item' item.pk %}" class="btn btn-danger" style="width:100%">
+										{% if item.current_bid %}
+											Winner: <i>{{item.current_bid.user.username}}</i>
+										{% else %}
+											No winner.
+										{% endif %}
+									</a>
 								</div>
 							{% else %}
 								<div class="card-body">
@@ -37,6 +43,7 @@
 									<small class="text-muted">Ends in {{ item.end_time|timeuntil }}.</small>
 								{% endif %}
 							</div>
+						</div>
 				{% endfor %}
 			</div>
 		{% else %}

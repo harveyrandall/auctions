@@ -29,6 +29,13 @@ class Item(models.Model):
     def item_ended(self):
         return self.end_time.replace(tzinfo=None) < datetime.datetime.now()
 
+    @property
+    def current_bid(self):
+        bid_val = Bid.highest_bid(self.pk)
+        if bid_val:
+            return Bid.objects.get(amount=bid_val)
+        return None
+
     def clean(self):
         if self.end_time.replace(tzinfo=None) < datetime.datetime.now():
             raise ValidationError({
@@ -59,6 +66,8 @@ class Bid(models.Model):
                 raise ValidationError({
                     'amount': "Bid must be higher than the previous one."
                 })
+            else:
+                self.amount = self.amount.normalize()
         except TypeError:
             pass
 

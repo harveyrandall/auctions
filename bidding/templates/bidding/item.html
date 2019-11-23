@@ -1,10 +1,14 @@
 {% extends '../base.html' %}
 
-{% load crispy_forms_tags %}
+{% load humanize %}
 
 {% block content %}
 	<div class="alert alert-info">
-		<h3>{{ item.item_name }}</h3>
+		<h3>
+			{{ item.item_name }}
+			<br />
+			<small class="text-black-50"><b>Current bid:</b> £{{ item.current_bid.amount|default:item.starting_price|intcomma }}</small>
+		</h3>
 	</div>
 	<div class="row">
 		<div class="col col-12">
@@ -16,7 +20,7 @@
 					<div class="col-md-8">
 						<div class="card-body item">
 							<p class="card-text h4">
-								Item description
+								<u>Item description</u>
 							</p>
 							<p class="card-text item-description">
 								{% if item.item_description %}
@@ -27,14 +31,24 @@
 							</p>
 							{% if item.item_ended %}
 								<p class="card-text">
-									<button class="btn btn-danger">Auction is over</button>
+									{% if item.current_bid %}
+										<button class="btn btn-danger"><b>Winner:</b>{{ item.current_bid.user.username }}</button>
+									{% else %}
+										<button class="btn btn-danger">No one bought this item.</button>
+									{% endif %}
 								</p>
 							{% else %}
 								{% if user.is_authenticated %}
-									<form method="GET" action="{% url 'bidding:bid' item.pk %}">
-										<input type="hidden" name="next" value="{% url 'bidding:item' item.pk %}" />
-										<button type="submit" class="btn btn-success">Make bid</button>
-									</form>
+									{% if current_highest %}
+										<p class="card-text">
+											<button class="btn btn-danger">You're the highest bidder at the minute!</button>
+										</p>
+									{% else %}
+										<form method="GET" action="{% url 'bidding:bid' item.pk %}">
+											<input type="hidden" name="next" value="{% url 'bidding:item' item.pk %}" />
+											<button type="submit" class="btn btn-success">Make bid</button>
+										</form>
+									{% endif %}
 								{% else %}
 									<p class="card-text">
 										<a href="{% url 'bidding:login' %}" class="btn btn-info">Login to make a bid</a>
@@ -53,15 +67,24 @@
 				</div>
 			</div>
 		</div>
-		<div class="col col-12">
+		<div class="col col-12 mb-5">
 			<div class="card">
 				<div class="card-header">
 					<h5>Bids</h5>
 				</div>
 				<ul class="list-group list-group-flush">
 					{% if item.bid_set.count > 0 %}
+						<li class="list-group-item list-group-item-dark bid">
+							<span><b>Bid</b></span>
+							<span><b>User</b></span>
+							<span><b>Time</b></span>
+						</li>
 						{% for bid in item.bid_set.all %}
-							<li class="list-group-item bid">{{ bid.amount }}</li>
+							<li class="list-group-item bid">
+								<span>£{{ bid.amount|intcomma }}</span>
+								<span>{{ bid.user.username }}</span>
+								<span>{{ bid.bid_time|timesince }}</span>
+							</li>
 						{% endfor %}
 					{% else %}
 						<li class="list-group-item">No bids yet.</li>

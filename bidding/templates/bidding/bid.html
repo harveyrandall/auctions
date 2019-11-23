@@ -11,11 +11,20 @@
 			</div>
 		{% endif %}
 		{% if not owner %}
-			<form method="POST" class="col-12">
-				{% csrf_token %}
-				{{ form|crispy }}
-				<button type="submit" class="btn btn-success col-12">Make bid!</button>
-			</form>
+			{% if current_highest %}
+				<p class="col-6 offset-3" style="text-align:center;">
+					You're the highest bidder right now.
+					<a href="{{ redirect }}" class="btn btn-danger col-12" style="margin-top:10px;">
+						Go back
+					</a>
+				</p>
+			{% else %}
+				<form method="POST" class="col-12">
+					{% csrf_token %}
+					{{ form|crispy }}
+					<button type="submit" class="btn btn-success col-12">Make bid!</button>
+				</form>
+			{% endif %}
 		{% else %}
 			<p class="col-6 offset-3" style="text-align:center;">
 				You can't bid on your own item!

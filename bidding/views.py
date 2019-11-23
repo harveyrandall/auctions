@@ -96,6 +96,15 @@ class ItemDetailView(generic.DetailView):
     template_name = "bidding/item.html"
     context_object_name = "item"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        current_bid = self.model.objects.get(pk=self.kwargs.get('pk')).current_bid
+        if current_bid and (self.request.user == current_bid.get('user')):
+            context.update({
+                'current_highest': True
+            })
+        return context
+
 class BidCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     login_url = "/login"
     model = Item
@@ -111,6 +120,7 @@ class BidCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        current_bid = self.model.objects.get(pk=self.kwargs.get('pk')).current_bid
         context.update({
             'bid': Bid.highest_bid(self.kwargs.get('pk')),
             'redirect': self.get_success_url()
@@ -118,6 +128,10 @@ class BidCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView)
         if self.request.user == self.model.objects.get(pk=self.kwargs.get('pk')).user:
             context.update({
                 'owner': True
+            })
+        elif current_bid and (self.request.user == current_bid.get('user')):
+            context.update({
+                'current_highest': True
             })
         return context
 

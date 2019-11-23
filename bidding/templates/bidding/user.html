@@ -30,7 +30,7 @@
 				<ul class="list-group list-group-flush">
 					{% for bid in user.bid_set.all %}
 						<li class="list-group-item">
-							<a href="{% url 'bidding:item' item.pk %}">{{bid.item_set.item_name}}</a>
+							<a href="{% url 'bidding:item' bid.item.pk %}">{{bid.item.item_name}}</a>
 						</li>
 					{% empty %}
 						<li class="list-group-item">You haven't bidded on any items yet.</li>
