@@ -52,10 +52,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'bidding.apps.BiddingConfig',
-    'crispy_forms'
+    'crispy_forms',
+    'django_crontab'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+CRONJOBS = [
+    ('0 */4 * * *', 'bidding.management.commands.notify_auction_end')
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
