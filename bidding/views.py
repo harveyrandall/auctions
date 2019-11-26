@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import views as auth_views
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Max
 from django.db.models.functions import Now
@@ -76,7 +77,7 @@ class SearchListView(generic.ListView):
     def get_queryset(self, **kwargs):
         searchterm = self.request.GET.get('search')
         if searchterm:
-            self.template_name = "bidding/search_results.html"
+            self.template_name = "bidding/item_snippet.html"
             return (self.model.objects.filter(item_name__icontains=searchterm) | self.model.objects.filter(item_description__icontains=searchterm))
         return self.model.objects.all()
 

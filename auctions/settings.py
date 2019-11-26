@@ -36,6 +36,13 @@ LOGIN_URL = 'bidding:login'
 LOGIN_REDIRECT_URL = 'bidding:index'
 LOGOUT_REDIRECT_URL = 'bidding:index'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ecs639u'
+EMAIL_HOST_PASSWORD = '?JUCZ97SyCb|'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
