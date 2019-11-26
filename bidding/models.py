@@ -24,6 +24,7 @@ class Item(models.Model):
     starting_price = models.DecimalField(decimal_places=2, max_digits=12, default=Decimal('0.01'))
     posted_time = models.DateTimeField(auto_now=True)
     end_time = models.DateTimeField(blank=False, default=default_end_time)
+    ended_notification = models.BooleanField(blank=False, default=False)
 
     @property
     def item_ended(self):
