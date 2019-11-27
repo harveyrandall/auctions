@@ -13,6 +13,10 @@ from .models import User, Item, Bid
 from .forms import RegistrationForm, ItemCreateForm, BidCreateForm
 import decimal
 
+# Health
+def health(request):
+    return HttpResponse(200)
+
 # Mixins
 class CurrentUserMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):

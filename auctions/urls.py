@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from bidding.models import health
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('bidding.urls'))
+    path('', include('bidding.urls')),
+    path('health', health)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
