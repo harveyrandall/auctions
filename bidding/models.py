@@ -33,9 +33,7 @@ class Item(models.Model):
     @property
     def current_bid(self):
         bid_val = Bid.highest_bid(self.pk)
-        if bid_val:
-            return Bid.objects.get(amount=bid_val)
-        return None
+        return bid_val
 
     def clean(self):
         if self.end_time.replace(tzinfo=None) < datetime.datetime.now():
@@ -55,7 +53,7 @@ class Bid(models.Model):
 
     @staticmethod
     def highest_bid(item):
-        bids = Bid.objects.filter(item=item)
+        bids = Bid.objects.filter(item=item).first()
         if bids:
             return bids.aggregate(models.Max('amount')).get('amount__max')
         else:
@@ -63,7 +61,7 @@ class Bid(models.Model):
 
     def clean(self):
         try:
-            if self.amount < self.highest_bid(self.item.pk):
+            if self.amount <= self.highest_bid(self.item.pk):
                 raise ValidationError({
                     'amount': "Bid must be higher than the previous one."
                 })

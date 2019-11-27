@@ -104,7 +104,7 @@ class ItemDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         current_bid = self.model.objects.get(pk=self.kwargs.get('pk')).current_bid
-        if current_bid and (self.request.user == current_bid.get('user')):
+        if current_bid and (self.request.user == current_bid.user):
             context.update({
                 'current_highest': True
             })
@@ -134,7 +134,7 @@ class BidCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView)
             context.update({
                 'owner': True
             })
-        elif current_bid and (self.request.user == current_bid.get('user')):
+        elif current_bid and (self.request.user == current_bid.user):
             context.update({
                 'current_highest': True
             })
