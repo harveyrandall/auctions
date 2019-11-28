@@ -12,6 +12,6 @@ import os
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'auctions.settings')
-os.environ.setdefault('APP_CONFIG', 'conf.gunicorn_conf')
+os.environ.setdefault('APP_CONFIG', './conf/gunicorn_conf.py')
 
 application = get_wsgi_application()

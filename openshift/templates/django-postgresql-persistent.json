@@ -136,7 +136,7 @@
           }
         ],
         "postCommit": {
-           "script": "pwd"
+           "script": "./manage.py test"
         }
       }
     },
