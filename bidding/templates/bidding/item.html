@@ -83,7 +83,7 @@
 							<li class="list-group-item bid">
 								<span>£{{ bid.amount|intcomma }}</span>
 								<span>{{ bid.user.username }}</span>
-								<span>{{ bid.bid_time|timesince }}</span>
+								<span>{{ bid.bid_time|timesince }} ago</span>
 							</li>
 						{% endfor %}
 					{% else %}

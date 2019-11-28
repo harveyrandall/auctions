@@ -7,7 +7,7 @@
 	<div class="row">
 		{% if bid|default:"0" %}
 			<div class="alert alert-info col-12">
-				<b>Current bid:</b> £{{ bid|default:0|intcomma }}
+				<b>Current bid:</b> £{{ bid.amount|default:0|intcomma }}
 			</div>
 		{% endif %}
 		{% if not owner %}

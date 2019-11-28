@@ -55,13 +55,13 @@ class Bid(models.Model):
     def highest_bid(item):
         bids = Bid.objects.filter(item=item).first()
         if bids:
-            return bids.aggregate(models.Max('amount')).get('amount__max')
+            return bids
         else:
             return None
 
     def clean(self):
         try:
-            if self.amount <= self.highest_bid(self.item.pk):
+            if self.amount <= self.highest_bid(self.item.pk).amount:
                 raise ValidationError({
                     'amount': "Bid must be higher than the previous one."
                 })
