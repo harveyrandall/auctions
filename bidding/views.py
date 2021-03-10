@@ -33,8 +33,8 @@ class IndexView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'title': "All open auctions",
-            'no_items': "No open auctions right now!"
+            'title': "Open auctions",
+            'no_items': "There are currently no open auctions."
         })
         return context
 
@@ -49,8 +49,8 @@ class ClosedView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'title': "All closed auctions",
-            'no_items': "No closed auctions yet!"
+            'title': "Closed auctions",
+            'no_items': "There are currently no closed auctions."
         })
         return context
 
